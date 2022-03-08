@@ -19,7 +19,6 @@ class Auction(models.Model):
     end_time = models.DateTimeField()
     highest_bid = models.IntegerField(default=0)
     highest_bidder = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    image = models.ImageField(upload_to="images/", null=True)
 
     def __str__(self):
         return self.name
