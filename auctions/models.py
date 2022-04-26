@@ -6,7 +6,17 @@ class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     pass
 
-class Auction(models.Model):
+
+class Category(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=40)
+    # image = models.ImageField(upload_to='images/')
+
+    def __str__(self):
+        return self.name
+
+
+class Auction(models.Model):  # ou chamar de Listing?
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -16,9 +26,11 @@ class Auction(models.Model):
     end_date = models.DateTimeField()
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
         return self.title
+
 
 class Bid(models.Model):
     id = models.AutoField(primary_key=True)
@@ -30,6 +42,7 @@ class Bid(models.Model):
     def __str__(self):
         return self.user.username + ' ' + self.auction.title
 
+
 class Comment(models.Model):
     id = models.AutoField(primary_key=True)
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
@@ -39,6 +52,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.user.username + ' ' + self.auction.title
+
 
 class Watchlist(models.Model):
     id = models.AutoField(primary_key=True)
